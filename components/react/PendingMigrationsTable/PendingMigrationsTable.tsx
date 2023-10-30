@@ -26,6 +26,9 @@ export const PendingMigrationsTable = () => {
   const { pendingMigrations, currentBlock } = useGetPendingMigrations(
     "dydx1ct3qfgmx74fzkgzehun7ayusjaqv0dyc5rp300" || address
   );
+  const blockCalculation = pendingMigrations.map((block) =>
+    block.startBlock + 86400 > currentBlock ? "Completed" : "1hr"
+  );
 
   console.log({ pendingMigrations, currentBlock });
 
@@ -42,8 +45,8 @@ export const PendingMigrationsTable = () => {
             <Typography>Pending Migrations</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Box alignContent="space-between">
-              <Typography>Latest block height: {}</Typography>
+            <Box sx={{ mb: 3 }} alignContent="space-between">
+              <Typography>Latest block height: {currentBlock}</Typography>
             </Box>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
@@ -54,7 +57,22 @@ export const PendingMigrationsTable = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow></TableRow>
+                  {pendingMigrations.map((block) => {
+                    const startBlock = block.startBlock;
+                    const tokenAmount = BigInt(block?.tokenAmount);
+                    return (
+                      <TableRow key={block.address}>
+                        <TableCell>{tokenAmount}</TableCell>
+                        <TableCell>
+                          {currentBlock && startBlock + 86400 > currentBlock ? (
+                            <Typography>Completed</Typography>
+                          ) : (
+                            <>{(86400 - startBlock) * 1.6}</>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
