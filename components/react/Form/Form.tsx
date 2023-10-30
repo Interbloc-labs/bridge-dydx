@@ -195,7 +195,7 @@ export default function Form({}: Props) {
         </Typography>
 
         <Box>
-          <Grid container>
+          <Grid direction="column" container>
             <AllowanceStep
               address={ethAddr}
               onSubmit={(e) => {
