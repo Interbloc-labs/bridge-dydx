@@ -109,8 +109,8 @@ export const StakeStep = ({ address }: Props) => {
   );
 
   return (
-    <Box gap={"small"} flexGrow={1}>
-      <Accordion expanded={expanded}>
+    <Box gap={"small"} flexGrow={1} sx={{ mt: 3 }}>
+      <Accordion style={{ borderRadius: "4px" }} expanded={expanded}>
         <AccordionSummary
           onClick={() => setExpanded(!expanded)}
           expandIcon={<ExpandMore />}

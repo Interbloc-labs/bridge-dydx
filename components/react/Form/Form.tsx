@@ -19,14 +19,34 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useAccount, useFeeData } from "wagmi";
-import { useDydxTokenAllowance } from "../generated";
+import {
+  useAccount,
+  useBalance,
+  useContractWrite,
+  useFeeData,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+  useWatchPendingTransactions,
+} from "wagmi";
+import {
+  usePrepareWrappedDydxTokenApprove,
+  usePrepareWrappedDydxTokenBridge,
+  useDydxTokenAllowance,
+  useWrappedDydxTokenApprovalEvent,
+  useWrappedDydxTokenRead,
+} from "../generated";
 
+import { ethToDydx } from "../../utils/ethToDydx";
+import { toHex } from "viem";
+import { ReceiverAddressInput } from "../ReceiverAddressInput/ReceiverAddressInput";
+import { useEffect } from "react";
+import { Check, CheckCircle } from "@mui/icons-material";
+import { Alert, LoadingButton } from "@mui/lab";
+import { Accordion } from "@mui/material";
 import { AllowanceStep } from "../AllowanceStep/AllowanceStep";
 import { BridgeStep } from "../BridgeStep/BridgeStep";
 import { StakeStep } from "../StakeStep/StakeStep";
 import { useChain } from "@cosmos-kit/react";
-import { CosmosKitConnect } from "../CosmosKitConnect/CosmosKitConnect";
 
 function Copyright(props: any) {
   return (
@@ -159,7 +179,6 @@ export default function Form({}: Props) {
   return (
     <>
       <CssBaseline />
-      <CosmosKitConnect />
       <Box
         sx={{
           marginTop: 8,
@@ -176,7 +195,7 @@ export default function Form({}: Props) {
         </Typography>
 
         <Box>
-          <Grid direction="column" container>
+          <Grid justifyContent="space-between" direction="column" container>
             <AllowanceStep
               address={ethAddr}
               onSubmit={(e) => {

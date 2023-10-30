@@ -124,7 +124,7 @@ export const BridgeStep = ({
       sx={{ mt: 3 }}
     >
       <Grid item xs={12}>
-        <Accordion expanded={expanded}>
+        <Accordion style={{ borderRadius: "4px" }} expanded={expanded}>
           <AccordionSummary
             onClick={() => setExpanded(!expanded)}
             expandIcon={<ExpandMore />}

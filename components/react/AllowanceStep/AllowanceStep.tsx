@@ -93,9 +93,10 @@ export const AllowanceStep = ({
       noValidate
       onSubmit={handleSubmit} //sx={{ mt: 3 }}
       flexGrow={1}
+      sx={{ mt: 3 }}
     >
       <Grid item xs={12}>
-        <Accordion expanded={expanded}>
+        <Accordion style={{ borderRadius: "4px" }} expanded={expanded}>
           <AccordionSummary
             onClick={() => setExpanded(!expanded)}
             expandIcon={<ExpandMore />}
@@ -137,7 +138,6 @@ export const AllowanceStep = ({
                   startAdornment: (
                     <InputAdornment position="start">
                       <img
-                        height={25}
                         style={{ borderRadius: "50%" }}
                         src="https://assets.coingecko.com/coins/images/17500/standard/hjnIm9bV.jpg?1696517040"
                         alt="$DYDX Icon"
