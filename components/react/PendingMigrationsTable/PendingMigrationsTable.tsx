@@ -23,9 +23,7 @@ import { useChain } from "@cosmos-kit/react";
 
 export const PendingMigrationsTable = () => {
   const { address } = useChain("dydx");
-  const { pendingMigrations, currentBlock } = useGetPendingMigrations(
-    "dydx1ct3qfgmx74fzkgzehun7ayusjaqv0dyc5rp300" || address
-  );
+  const { pendingMigrations, currentBlock } = useGetPendingMigrations(address);
 
   console.log({ pendingMigrations, currentBlock });
 

@@ -14,9 +14,8 @@ export const Header = () => {
       justifyContent="flex-end"
       width={"100%"}
     >
-      <w3m-connect-button balance={"show"} />
+      <w3m-connect-button />
       <CosmosKitConnect />
-      {/* <Modal isOpen={true} header={undefined} /> */}
     </Box>
   );
 };

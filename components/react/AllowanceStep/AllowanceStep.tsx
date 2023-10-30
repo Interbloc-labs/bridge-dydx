@@ -119,6 +119,7 @@ export const AllowanceStep = ({
                 type="text"
                 id="amount"
                 autoComplete="dydx-to-bridge"
+                error={amountToBridge[0] > (dydxBalance.data?.value || 0n)}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -181,12 +182,17 @@ export const AllowanceStep = ({
                   });
 
                   const [int, dec] = amount.split(".");
+                  const displayAmount = `${int.replace(/^00/, "0")}${
+                    typeof dec === "undefined" ? "" : `.${dec}`
+                  }`;
 
                   return setAmountToBridge([
                     bigAmount,
-                    `${int.replace(/^00/, "0")}${
-                      typeof dec === "undefined" ? "" : `.${dec}`
-                    }`,
+                    displayAmount.length === 2 &&
+                    displayAmount[0] === "0" &&
+                    displayAmount[1] !== "."
+                      ? displayAmount[1]
+                      : displayAmount,
                   ]);
                 }}
                 //   value={(amountToBridge / BigInt(1e18)).toString()}

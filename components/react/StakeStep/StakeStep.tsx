@@ -135,6 +135,7 @@ export const StakeStep = ({}: Props) => {
               style={{ marginBottom: "15px" }}
             />
             <TextField
+              error={amountToDelegate[0] > userBalance}
               fullWidth
               name="amount"
               label="Amount to Stake"
@@ -195,11 +196,17 @@ export const StakeStep = ({}: Props) => {
 
                 const [int, dec] = amount.split(".");
 
+                const displayAmount = `${int.replace(/^00/, "0")}${
+                  typeof dec === "undefined" ? "" : `.${dec}`
+                }`;
+
                 return setAmountToDelegate([
                   bigAmount,
-                  `${int.replace(/^00/, "0")}${
-                    typeof dec === "undefined" ? "" : `.${dec}`
-                  }`,
+                  displayAmount.length === 2 &&
+                  displayAmount[0] === "0" &&
+                  displayAmount[1] !== "."
+                    ? displayAmount[1]
+                    : displayAmount,
                 ]);
               }}
               //   value={(amountToBridge / BigInt(1e18)).toString()}

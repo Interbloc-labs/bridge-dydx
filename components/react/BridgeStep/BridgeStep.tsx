@@ -130,10 +130,14 @@ export const BridgeStep = ({
       sx={{ mt: 3 }}
     >
       <Grid item xs={12}>
-        <Accordion style={{ borderRadius: "4px" }} expanded={expanded}>
+        <Accordion
+          style={{ borderRadius: "4px" }}
+          expanded={allowanceAmount !== 0n && expanded}
+          disabled={allowanceAmount === 0n}
+        >
           <AccordionSummary
             onClick={() => setExpanded(!expanded)}
-            expandIcon={<ExpandMore />}
+            expandIcon={allowanceAmount !== 0n && <ExpandMore />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
@@ -142,7 +146,7 @@ export const BridgeStep = ({
           <AccordionDetails>
             <>
               <Box textAlign="center" style={{ marginBottom: "15px" }}>
-                <Typography variant="h6">{formattedAllowance} DYDX</Typography>
+                <Typography variant="h6">{`${formattedAllowance} DYDX`}</Typography>
               </Box>
 
               <ReceiverAddressInput

@@ -384,7 +384,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
         {" "}
         <WagmiConfig config={wagmiConfig}>
           <MuiThemeProvider theme={muiDefaultTheme}>
-            <Component {...pageProps} />
+            {
+              // @ts-ignore
+              <Component {...pageProps} />
+            }
           </MuiThemeProvider>
         </WagmiConfig>
       </ChainProvider>

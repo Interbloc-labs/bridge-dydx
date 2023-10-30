@@ -134,18 +134,7 @@ export default function Form({}: Props) {
               onAllowanceSuccess={onAllowanceSuccess}
               allowanceAmount={allowanceQuery.data}
             />
-            {/* <Grid item xs={12}>
-                <ReceiverAddressInput
-                  value={cosmosAddress}
-                  onChange={setCosmosAddress}
-                />
-              </Grid> */}
-            {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid> */}
+
             <BridgeStep
               cosmosAddress={cosmosAddress}
               // onRecipientChange={setCosmosAddress}
@@ -156,6 +145,8 @@ export default function Form({}: Props) {
               onBridgeSuccess={() => {
                 console.log("bridge success");
                 refetchWrappedDydxData();
+                dydxBalance.refetch();
+                allowanceRefetch();
               }}
             />
             <StakeStep

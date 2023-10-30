@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "wagmi";
 
 const QUERY =
-  "https://dydx-api.polkachu.com/cosmos/tx/v1beta1/txs?events=message.action=%27/dydxprotocol.bridge.MsgAcknowledgeBridges%27";
+  "https://rest.cosmos.directory/dydx/cosmos/tx/v1beta1/txs?events=message.action=%27/dydxprotocol.bridge.MsgAcknowledgeBridges%27";
 
 export interface Txs {
   txs: Tx[];
@@ -198,64 +198,63 @@ export type PendingMigration = {
 };
 
 export const useGetPendingMigrations = (address: string | undefined) => {
-  const [pendingMigrations, setPendingMigrations] = useState<
-    PendingMigration[]
-  >([]);
-  //   const [currentBlock, setCurrentBlock] = useState<number>();
-
-  const latest = useQuery(["blocks/latest"], () =>
-    fetch(
-      `https://rest.cosmos.directory/dydx/cosmos/base/tendermint/v1beta1/blocks/latest`
-    )
-      .then((resp) => resp.json())
-      .then((data: LatestResp) => Number(data.block.header.height))
+  const latest = useQuery(
+    ["blocks/latest"],
+    () =>
+      fetch(
+        `https://rest.cosmos.directory/dydx/cosmos/base/tendermint/v1beta1/blocks/latest`
+      )
+        .then((resp) => resp.json())
+        .then((data: LatestResp) => Number(data.block.header.height)),
+    // refetch block height every 90 seconds
+    { refetchInterval: 1000 * 60 * 1.5 }
   );
 
-  useEffect(() => {
-    if (address) {
-      fetch(QUERY)
-        .then((res) => res.json())
-        .then((res: Txs) =>
-          res.tx_responses
-            // .filter((tx) =>
-            //   tx.tx.body.messages.some(({ events }) =>
-            //     events.some(
-            //       ({ address: eventAddress }) => eventAddress === address
-            //     )
-            //   )
-            // )
-            // denormalize the data so we can filter again
-            .map(
-              ({
-                height,
-                tx: {
-                  body: { messages },
-                },
-              }) =>
-                messages.flatMap(({ events }) =>
-                  events
-                    .filter(
-                      ({ address: eventAddress }) => eventAddress === address
-                    )
-                    .map(
-                      ({ address, coin }): PendingMigration => ({
-                        address,
-                        startBlock: Number(height),
-                        tokenAmount: BigInt(coin.amount),
-                      })
+  const { data: pendingMigrations } = useQuery(
+    ["pendingMigrations", address],
+    () => {
+      return address
+        ? fetch(QUERY)
+            .then((res) => res.json())
+            .then((res: Txs) =>
+              res.tx_responses
+                // .filter((tx) =>
+                //   tx.tx.body.messages.some(({ events }) =>
+                //     events.some(
+                //       ({ address: eventAddress }) => eventAddress === address
+                //     )
+                //   )
+                // )
+                // denormalize the data so we can filter again
+                .map(
+                  ({
+                    height,
+                    tx: {
+                      body: { messages },
+                    },
+                  }) =>
+                    messages.flatMap(({ events }) =>
+                      events
+                        .filter(
+                          ({ address: eventAddress }) =>
+                            eventAddress === address
+                        )
+                        .map(
+                          ({ address, coin }): PendingMigration => ({
+                            address,
+                            startBlock: Number(height),
+                            tokenAmount: BigInt(coin.amount),
+                          })
+                        )
                     )
                 )
+                .filter((x) => x.length > 0)
+                .flat()
             )
-            .filter((x) => x.length > 0)
-            .flat()
-        )
-        .then(setPendingMigrations);
-    } else {
-      setPendingMigrations([]);
-    }
-  }, [address]);
-
-  console.log(pendingMigrations);
+        : [];
+    },
+    { refetchInterval: 1000 * 60 * 6 }
+  );
 
   return { pendingMigrations, currentBlock: latest.data };
 };
