@@ -210,51 +210,56 @@ export const useGetPendingMigrations = (address: string | undefined) => {
     { refetchInterval: 1000 * 60 * 1.5 }
   );
 
-  const { data: pendingMigrations } = useQuery(
-    ["pendingMigrations", address],
-    () => {
-      return address
-        ? fetch(QUERY)
-            .then((res) => res.json())
-            .then((res: Txs) =>
-              res.tx_responses
-                // .filter((tx) =>
-                //   tx.tx.body.messages.some(({ events }) =>
-                //     events.some(
-                //       ({ address: eventAddress }) => eventAddress === address
-                //     )
-                //   )
-                // )
-                // denormalize the data so we can filter again
-                .map(
-                  ({
-                    height,
-                    tx: {
-                      body: { messages },
-                    },
-                  }) =>
-                    messages.flatMap(({ events }) =>
-                      events
-                        .filter(
-                          ({ address: eventAddress }) =>
-                            eventAddress === address
-                        )
-                        .map(
-                          ({ address, coin }): PendingMigration => ({
-                            address,
-                            startBlock: Number(height),
-                            tokenAmount: BigInt(coin.amount),
-                          })
-                        )
-                    )
-                )
-                .filter((x) => x.length > 0)
-                .flat()
-            )
-        : [];
-    },
-    { refetchInterval: 1000 * 60 * 6 }
-  );
+  const { data: pendingMigrations, isLoading: pendingMigrationsLoading } =
+    useQuery(
+      ["pendingMigrations", address],
+      () => {
+        return address
+          ? fetch(QUERY)
+              .then((res) => res.json())
+              .then((res: Txs) =>
+                res.tx_responses
+                  // .filter((tx) =>
+                  //   tx.tx.body.messages.some(({ events }) =>
+                  //     events.some(
+                  //       ({ address: eventAddress }) => eventAddress === address
+                  //     )
+                  //   )
+                  // )
+                  // denormalize the data so we can filter again
+                  .map(
+                    ({
+                      height,
+                      tx: {
+                        body: { messages },
+                      },
+                    }) =>
+                      messages.flatMap(({ events }) =>
+                        events
+                          .filter(
+                            ({ address: eventAddress }) =>
+                              eventAddress === address
+                          )
+                          .map(
+                            ({ address, coin }): PendingMigration => ({
+                              address,
+                              startBlock: Number(height),
+                              tokenAmount: BigInt(coin.amount),
+                            })
+                          )
+                      )
+                  )
+                  .filter((x) => x.length > 0)
+                  .flat()
+              )
+          : [];
+      },
+      { refetchInterval: 1000 * 60 * 6 }
+    );
 
-  return { pendingMigrations, currentBlock: latest.data };
+  return {
+    pendingMigrations,
+    currentBlock: latest.data,
+    isLoading: latest.isLoading || pendingMigrationsLoading,
+  };
 };

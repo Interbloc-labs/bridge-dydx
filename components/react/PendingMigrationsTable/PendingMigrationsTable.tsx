@@ -20,19 +20,25 @@ import {
 import { ExpandMore } from "@mui/icons-material";
 import { useGetPendingMigrations } from "./useGetPendingMigrations";
 import { useChain } from "@cosmos-kit/react";
+import { formatToken } from "../BridgeStep/BridgeStep";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import { addSeconds } from "date-fns";
+import { Spinner } from "@chakra-ui/react";
 
 export const PendingMigrationsTable = () => {
-  const { address } = useChain("dydx");
-  const { pendingMigrations, currentBlock } = useGetPendingMigrations(
-    "dydx1ct3qfgmx74fzkgzehun7ayusjaqv0dyc5rp300" || address
-  );
+  const { address, connect, isWalletConnecting } = useChain("dydx");
+  const {
+    pendingMigrations,
+    currentBlock,
+    isLoading: loadingMigrations,
+  } = useGetPendingMigrations(address);
 
   console.log({ pendingMigrations, currentBlock });
 
   return (
-    <Box component="form" noValidate flexGrow={1} sx={{ mt: 3 }}>
+    <Box component="form" noValidate flexGrow={1} sx={{ mt: 0 }}>
       <Grid item xs={12}>
-        <Accordion style={{ borderRadius: "4px" }} expanded={true}>
+        {/* <Accordion style={{ borderRadius: "4px" }} expanded={true}>
           <AccordionSummary
             // onClick={() => setExpanded(!expanded)}
             // expandIcon={<ExpandMore />}
@@ -41,42 +47,88 @@ export const PendingMigrationsTable = () => {
           >
             <Typography>Pending Migrations</Typography>
           </AccordionSummary>
-          <AccordionDetails>
-            <Box sx={{ mb: 3 }} alignContent="space-between">
-              <Typography>Latest block height: {currentBlock}</Typography>
-            </Box>
-            <TableContainer sx={{ maxHeight: 440 }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Amount</TableCell>{" "}
-                    <TableCell>Est.Time Left</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {!!pendingMigrations?.length &&
-                    pendingMigrations.map((block) => {
-                      const startBlock = block.startBlock;
-                      const tokenAmount = BigInt(block?.tokenAmount.toString());
-                      return (
-                        <TableRow key={block.address}>
-                          <TableCell>{0}</TableCell>
-                          <TableCell>
-                            {currentBlock &&
-                            startBlock + 86400 > currentBlock ? (
-                              <Typography>Completed</Typography>
-                            ) : (
-                              <>{(86400 - startBlock) * 1.6}</>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </AccordionDetails>
-        </Accordion>
+          <AccordionDetails> */}
+        <Box sx={{ mb: 3 }} alignContent="space-between">
+          {!!address && (
+            <Typography>
+              Pending migrations for {address.substring(0, 7)}..
+              {address.substring(address.length - 6)}
+            </Typography>
+          )}
+          <Typography>Latest block height: {currentBlock}</Typography>
+        </Box>
+        {loadingMigrations ? (
+          <Typography>Loading Pending Migrations</Typography>
+        ) : !address ? (
+          <Alert
+            style={{ cursor: "pointer" }}
+            severity="warning"
+            onClick={() => !isWalletConnecting && connect()}
+          >
+            Please connect your wallet to view pending migrations
+          </Alert>
+        ) : !pendingMigrations?.length ? (
+          <Alert severity="info">
+            No pending migrations for {address}. Please note that migrations
+            take 30-45mins to be picked up by dYdX chain.
+          </Alert>
+        ) : (
+          <TableContainer sx={{}}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Amount</TableCell>{" "}
+                  <TableCell>Est.Time Left</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {pendingMigrations.map((pendingMigration) => {
+                  const startBlock = pendingMigration.startBlock;
+                  const tokenAmount = BigInt(
+                    pendingMigration?.tokenAmount.toString()
+                  );
+                  return (
+                    <TableRow key={pendingMigration.address}>
+                      <TableCell>
+                        {Number(
+                          Number(
+                            formatToken(pendingMigration.tokenAmount)
+                          ).toFixed(2)
+                        )}{" "}
+                        DYDX
+                      </TableCell>
+                      <TableCell>
+                        {currentBlock ? (
+                          startBlock + 86400 < currentBlock ? (
+                            <Typography color="green">Completed</Typography>
+                          ) : (
+                            <Box>
+                              <Typography>
+                                {formatDistanceToNowStrict(
+                                  addSeconds(
+                                    new Date(),
+                                    (startBlock + 86400 - currentBlock) * 1.6
+                                  )
+                                )}
+                              </Typography>
+                              <Typography fontSize="small">
+                                Block {startBlock + 86400}
+                              </Typography>
+                            </Box>
+                          )
+                        ) : (
+                          "Loading Current Block Height"
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+        {/* </AccordionDetails>
+        </Accordion> */}
       </Grid>
     </Box>
   );

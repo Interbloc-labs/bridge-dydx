@@ -1,11 +1,13 @@
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, Pending } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Alert,
   Box,
+  Card,
   Chip,
+  Divider,
   Grid,
   InputAdornment,
   Link,
@@ -18,6 +20,7 @@ import { StargateClient } from "@cosmjs/stargate";
 import { LoadingButton } from "@mui/lab";
 import { useChain } from "@cosmos-kit/react";
 import { cosmos, osmosis } from "osmojs";
+import { PendingMigrationsTable } from "../PendingMigrationsTable/PendingMigrationsTable";
 
 type Props = {
   // address: string | undefined;
@@ -111,10 +114,14 @@ export const StakeStep = ({}: Props) => {
 
   return (
     <Box gap={"small"} flexGrow={1} sx={{ mt: 3 }}>
-      <Accordion style={{ borderRadius: "4px" }} expanded={expanded}>
+      <Accordion
+        style={{ borderRadius: "4px" }}
+        // expanded={expanded}
+        expanded
+      >
         <AccordionSummary
           onClick={() => setExpanded(!expanded)}
-          expandIcon={<ExpandMore />}
+          // expandIcon={<ExpandMore />}
           aria-controls="panel2a-content"
           id="panel2a-header"
           //   justifyContent="space-between"
@@ -129,6 +136,10 @@ export const StakeStep = ({}: Props) => {
           </Box>
         </AccordionSummary>
         <AccordionDetails>
+          <Box sx={{ marginBottom: 2 }}>
+            <PendingMigrationsTable />
+          </Box>
+
           <Box sx={{ columnGap: 2 }}>
             <Chip
               label={`${displayTokens} DYDX Available`}
