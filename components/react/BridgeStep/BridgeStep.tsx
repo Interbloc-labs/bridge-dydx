@@ -59,6 +59,7 @@ export const BridgeStep = ({
       ? tryCatch(
           () => dydxToEth(cosmosAddress)?.toLowerCase(),
           () => undefined
+          // @ts-ignore
         )?.right
       : undefined;
     const verifiedCosmosEthAddress = is0xAddress(cosmosEthAddress)
@@ -143,7 +144,11 @@ export const BridgeStep = ({
             </Box>
 
             <LoadingButton
-              disabled={!cosmosAddress || isLeft(bech32Validity(cosmosAddress))}
+              disabled={
+                !allowanceAmount ||
+                !cosmosAddress ||
+                isLeft(bech32Validity(cosmosAddress))
+              }
               loading={
                 //   approvalData.isLoading ||
                 approvalTx.isLoading || writeParams?.isLoading

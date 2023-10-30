@@ -165,6 +165,7 @@ export const StakeStep = ({ address, onSubmit }: Props) => {
             />
           </Box>
           <LoadingButton
+            disabled={amountToDelegate[0] === BigInt(0)}
             loading={
               false
               //   approvalData.isLoading ||
