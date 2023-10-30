@@ -59,7 +59,7 @@ export const PendingMigrationsTable = () => {
                 <TableBody>
                   {pendingMigrations.map((block) => {
                     const startBlock = block.startBlock;
-                    const tokenAmount = BigInt(block?.tokenAmount);
+                    const tokenAmount = BigInt(block?.tokenAmount.toString());
                     return (
                       <TableRow key={block.address}>
                         <TableCell>{tokenAmount}</TableCell>
