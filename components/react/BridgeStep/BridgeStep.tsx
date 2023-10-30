@@ -31,6 +31,7 @@ type Props = {
   onRecipientChange: (recipient: string) => void;
   cosmosAddress: string | undefined;
   allowanceAmount: bigint | undefined;
+  onBridgeSuccess: () => void;
 };
 
 export const BridgeStep = ({
@@ -39,13 +40,8 @@ export const BridgeStep = ({
   onSubmit,
   onRecipientChange,
   allowanceAmount,
+  onBridgeSuccess,
 }: Props) => {
-  const {
-    isWalletConnected,
-    connect,
-    isWalletConnecting,
-    // address: cosmosAddress,
-  } = useChain("dydx");
   const [expanded, setExpanded] = useState(true);
   const [cosmosAddress, setCosmosAddress] = useState<string>("");
 
@@ -102,6 +98,15 @@ export const BridgeStep = ({
     allowanceAmount && expanded && setExpanded(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allowanceAmount]);
+
+  const approval = approvalTx.data;
+
+  useEffect(() => {
+    if (approval && approval.status === "success") {
+      onBridgeSuccess();
+      setExpanded(false);
+    }
+  }, [approval, onBridgeSuccess]);
 
   const allowanceAmountStr = allowanceAmount?.toString() || "";
 

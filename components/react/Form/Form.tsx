@@ -36,7 +36,7 @@ import {
   useWrappedDydxTokenRead,
 } from "../generated";
 
-import { ethToDydx } from "../../utils/ethToDydx";
+import { DYDX, ethToDydx } from "../../utils/ethToDydx";
 import { toHex } from "viem";
 import { ReceiverAddressInput } from "../ReceiverAddressInput/ReceiverAddressInput";
 import { useEffect } from "react";
@@ -47,6 +47,7 @@ import { AllowanceStep } from "../AllowanceStep/AllowanceStep";
 import { BridgeStep } from "../BridgeStep/BridgeStep";
 import { StakeStep } from "../StakeStep/StakeStep";
 import { useChain } from "@cosmos-kit/react";
+import { DYDX_TOKEN_ADDRESS } from "../../../pages/_app";
 
 function Copyright(props: any) {
   return (
@@ -94,10 +95,17 @@ export default function Form({}: Props) {
       // args: ethAddr && [ethAddr, DYDX_TOKEN_ADDRESS],
     });
 
-  //   const dydxBalance = useBalance({
-  //     address: ethAddr,
-  //     token: DYDX_TOKEN_ADDRESS,
-  //   });
+  const { data: wrappedDydxData, refetch: refetchWrappedDydxData } =
+    useWrappedDydxTokenRead({
+      account: address,
+      args: address && [address],
+    });
+
+  const dydxBalance = useBalance({
+    address: ethAddr,
+    token: "0x46b2DeAe6eFf3011008EA27EA36b7c27255ddFA9",
+  });
+
   // const ethBalance = useBalance({
   //   address: ethAddr,
   // });
@@ -193,6 +201,11 @@ export default function Form({}: Props) {
         <Typography component="h1" variant="h5">
           Bridge $DYDX
         </Typography>
+        {dydxBalance.data && (
+          <Typography>
+            Balance {dydxBalance.data.formatted} {dydxBalance.data.symbol}
+          </Typography>
+        )}
 
         <Box>
           <Grid justifyContent="space-between" direction="column" container>
@@ -224,6 +237,10 @@ export default function Form({}: Props) {
               address={ethAddr}
               onSubmit={console.log}
               allowanceAmount={allowanceQuery.data}
+              onBridgeSuccess={() => {
+                console.log("bridge success");
+                refetchWrappedDydxData();
+              }}
             />
             <StakeStep
             // address={cosmosAddress}
