@@ -94,8 +94,10 @@ export const StakeStep = ({ address, onSubmit }: Props) => {
         </AccordionSummary>
         <AccordionDetails>
           <Box sx={{ columnGap: 2 }}>
-            <Chip label={`${displayTokens} DYDX Available`} />
-
+            <Chip
+              label={`${displayTokens} DYDX Available`}
+              style={{ marginBottom: "15px" }}
+            />
             <TextField
               fullWidth
               name="amount"
@@ -118,9 +120,11 @@ export const StakeStep = ({ address, onSubmit }: Props) => {
                   </InputAdornment>
                 ),
                 startAdornment: (
-                  <InputAdornment position="start">
+                  <InputAdornment
+                    sx={{ width: 50, height: 50 }}
+                    position="start"
+                  >
                     <img
-                      height={25}
                       style={{ borderRadius: "50%" }}
                       src="https://assets.coingecko.com/coins/images/17500/standard/hjnIm9bV.jpg?1696517040"
                       alt="$DYDX Icon"

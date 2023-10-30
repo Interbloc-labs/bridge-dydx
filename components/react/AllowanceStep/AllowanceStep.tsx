@@ -136,7 +136,10 @@ export const AllowanceStep = ({
                     </InputAdornment>
                   ),
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment
+                      sx={{ width: 50, height: 50 }}
+                      position="start"
+                    >
                       <img
                         style={{ borderRadius: "50%" }}
                         src="https://assets.coingecko.com/coins/images/17500/standard/hjnIm9bV.jpg?1696517040"

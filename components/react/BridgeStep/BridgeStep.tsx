@@ -134,14 +134,16 @@ export const BridgeStep = ({
             <Typography>Bridge Tokens</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Box>
-              <Typography>{formattedAllowance} DYDX</Typography>
+            <>
+              <Box style={{ marginBottom: "15px" }}>
+                <Typography>{formattedAllowance} DYDX</Typography>
+              </Box>
 
               <ReceiverAddressInput
                 value={cosmosAddress || ""}
                 onChange={setCosmosAddress}
               />
-            </Box>
+            </>
 
             <LoadingButton
               disabled={
