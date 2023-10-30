@@ -21,15 +21,36 @@ function Copyright(props: any) {
       color="text.secondary"
       align="center"
       {...props}
+      sx={{
+        marginTop: "15px",
+        flexDirection: "row",
+        alignItems: "center",
+        display: "flex",
+        gap: "3px",
+        justifyContent: "center",
+      }}
     >
-      {"Copyright © "}
+      {/* {"Copyright "} */}
       <Link
         color="inherit"
         target="_blank"
         href="https://explorer.interbloc.org/"
+        sx={{
+          flexDirection: "row",
+          alignItems: "center",
+          display: "flex",
+          gap: "3px",
+        }}
       >
+        <img
+          height={"18px"}
+          width={"18px"}
+          src={`/favicon.png`}
+          alt="Interbloc logo"
+        />{" "}
         Interbloc
-      </Link>{" "}
+      </Link>
+      {" © "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
