@@ -8,13 +8,19 @@ import {
   Grid,
   InputAdornment,
   Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 
 export const PendingMigrationsTable = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   return (
     <Box component="form" noValidate flexGrow={1} sx={{ mt: 3 }}>
@@ -28,7 +34,24 @@ export const PendingMigrationsTable = () => {
           >
             <Typography>Pending Migrations</Typography>
           </AccordionSummary>
-          <AccordionDetails></AccordionDetails>
+          <AccordionDetails>
+            <Box alignContent="space-between">
+              <Typography>Latest block height: {}</Typography>
+            </Box>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Amount</TableCell>{" "}
+                    <TableCell>Est.Time Left</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow></TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </AccordionDetails>
         </Accordion>
       </Grid>
     </Box>
