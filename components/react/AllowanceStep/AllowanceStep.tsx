@@ -84,7 +84,11 @@ export const AllowanceStep = ({
 
   const approval = approvalTx.data;
   useEffect(() => {
-    approval && approval.status === "success" && onAllowanceSuccess();
+    if (approval && approval.status === "success") {
+      onAllowanceSuccess();
+      setExpanded(false);
+      setAmountToBridge([BigInt(0), ""]);
+    }
   }, [approval, onAllowanceSuccess]);
 
   return (

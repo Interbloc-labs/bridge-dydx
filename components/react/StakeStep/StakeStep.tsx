@@ -13,22 +13,30 @@ import {
   Typography,
 } from "@mui/material";
 // import { cosmos } from "osmojs";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StargateClient } from "@cosmjs/stargate";
 import { LoadingButton } from "@mui/lab";
 import { useChain } from "@cosmos-kit/react";
+import { cosmos, osmosis } from "osmojs";
 
 type Props = {
-  address: string | undefined;
-  onSubmit: (allowanceAmount: bigint) => void;
+  // address: string | undefined;
+  // onSubmit: (allowanceAmount: bigint) => void;
 };
 
-export const StakeStep = ({ address, onSubmit }: Props) => {
-  const { isWalletConnected, isWalletConnecting, connect } = useChain("dydx");
+export const StakeStep = ({}: Props) => {
+  const {
+    isWalletConnected,
+    isWalletConnecting,
+    connect,
+    getSigningStargateClient,
+    address,
+  } = useChain("dydx");
   const [expanded, setExpanded] = useState(false);
   //   const [client, setClient] =
   //     useState<Awaited<ReturnType<typeof createRPCQueryClient>>>();
   const [client, setClient] = useState<StargateClient>();
+  const [txHash, setTxHash] = useState<string>();
 
   const [userBalance, setUserBalance] = useState<bigint>(BigInt(0));
   const [amountToDelegate, setAmountToDelegate] = useState<
@@ -72,6 +80,34 @@ export const StakeStep = ({ address, onSubmit }: Props) => {
       "." +
       userBalance.toString().substring(userBalance.toString().length - 18)
   ).toFixed(2);
+
+  const onSubmit = useCallback(
+    async (delegationAmount: bigint) => {
+      if (!address) return;
+      const client = await getSigningStargateClient();
+
+      const value = cosmos.staking.v1beta1.MsgDelegate.fromPartial({
+        delegatorAddress: address,
+        validatorAddress: "dydxvaloper15004ysvmqnqzkvt7x6s4cd53flmmvgfvyqk90h",
+        amount: {
+          denom: "adydx",
+          amount: delegationAmount.toString(),
+        },
+      });
+      const msg = {
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+        value,
+      };
+
+      client
+        .signAndBroadcast(address, [msg], "auto", "Stake DYDX")
+        .then((res) => {
+          console.log(res);
+          setTxHash(res.transactionHash);
+        });
+    },
+    [address, getSigningStargateClient]
+  );
 
   return (
     <Box gap={"small"} flexGrow={1} sx={{ mt: 3 }}>
@@ -181,6 +217,7 @@ export const StakeStep = ({ address, onSubmit }: Props) => {
               type="submit"
               fullWidth
               variant="contained"
+              onClick={() => onSubmit(amountToDelegate[0])}
               sx={{ mt: 3, mb: 2 }}
             >
               Stake
@@ -196,6 +233,19 @@ export const StakeStep = ({ address, onSubmit }: Props) => {
           )}
         </AccordionDetails>
       </Accordion>
+      <Box>
+        {!!txHash && (
+          <Alert severity={"info"}>
+            <Link
+              target="_blank"
+              referrerPolicy="no-referrer"
+              href={`https://mintscan.io/dydx/tx/${txHash}`}
+            >
+              View Stake Tx on Mintscan
+            </Link>
+          </Alert>
+        )}
+      </Box>
     </Box>
   );
 };
