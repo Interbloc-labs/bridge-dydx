@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { StargateClient } from "@cosmjs/stargate";
 import { LoadingButton } from "@mui/lab";
+import { useChain } from "@cosmos-kit/react";
 
 type Props = {
   address: string | undefined;
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export const StakeStep = ({ address, onSubmit }: Props) => {
+  const { isWalletConnected, isWalletConnecting, connect } = useChain("dydx");
   const [expanded, setExpanded] = useState(false);
   //   const [client, setClient] =
   //     useState<Awaited<ReturnType<typeof createRPCQueryClient>>>();
@@ -164,19 +166,30 @@ export const StakeStep = ({ address, onSubmit }: Props) => {
               value={amountToDelegate[1]}
             />
           </Box>
-          <LoadingButton
-            loading={
-              false
-              //   approvalData.isLoading ||
-              // approvalTx.isLoading || writeParams?.isLoading
-            }
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Stake
-          </LoadingButton>
+          {isWalletConnected ? (
+            <LoadingButton
+              disabled={amountToDelegate[0] === BigInt(0)}
+              loading={
+                false
+                //   approvalData.isLoading ||
+                // approvalTx.isLoading || writeParams?.isLoading
+              }
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Stake
+            </LoadingButton>
+          ) : (
+            <LoadingButton
+              type="button"
+              disabled={isWalletConnecting}
+              onClick={connect}
+            >
+              Connect Wallet
+            </LoadingButton>
+          )}
         </AccordionDetails>
       </Accordion>
     </Box>
