@@ -20,16 +20,17 @@ import { useChain } from "@cosmos-kit/react";
 import { cosmos, osmosis } from "osmojs";
 
 type Props = {
-  address: string | undefined;
-  onSubmit: (allowanceAmount: bigint) => void;
+  // address: string | undefined;
+  // onSubmit: (allowanceAmount: bigint) => void;
 };
 
-export const StakeStep = ({ address }: Props) => {
+export const StakeStep = ({}: Props) => {
   const {
     isWalletConnected,
     isWalletConnecting,
     connect,
     getSigningStargateClient,
+    address,
   } = useChain("dydx");
   const [expanded, setExpanded] = useState(false);
   //   const [client, setClient] =
