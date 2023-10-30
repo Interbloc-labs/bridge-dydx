@@ -15,10 +15,15 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import { ReceiverAddressInput } from "../ReceiverAddressInput/ReceiverAddressInput";
+import {
+  bech32Validity,
+  ReceiverAddressInput,
+} from "../ReceiverAddressInput/ReceiverAddressInput";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 import { toHex } from "viem";
 import { dydxToEth } from "../../utils/ethToDydx";
+import { isLeft, tryCatch } from "fp-ts/lib/Either";
+import { useChain } from "@cosmos-kit/react";
 
 type Props = {
   address: `0x${string}` | undefined;
@@ -29,13 +34,20 @@ type Props = {
 };
 
 export const BridgeStep = ({
-  address,
-  cosmosAddress,
+  address: ethAddress,
+  // cosmosAddress,
   onSubmit,
   onRecipientChange,
   allowanceAmount,
 }: Props) => {
+  const {
+    isWalletConnected,
+    connect,
+    isWalletConnecting,
+    // address: cosmosAddress,
+  } = useChain("dydx");
   const [expanded, setExpanded] = useState(true);
+  const [cosmosAddress, setCosmosAddress] = useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,7 +56,10 @@ export const BridgeStep = ({
 
   const [cosmosEthAddress, verifiedCosmosEthAddress] = useMemo(() => {
     const cosmosEthAddress = cosmosAddress
-      ? dydxToEth(cosmosAddress)?.toLowerCase()
+      ? tryCatch(
+          () => dydxToEth(cosmosAddress)?.toLowerCase(),
+          () => undefined
+        )?.right
       : undefined;
     const verifiedCosmosEthAddress = is0xAddress(cosmosEthAddress)
       ? cosmosEthAddress
@@ -58,7 +73,7 @@ export const BridgeStep = ({
   const { config: bridgeConfig, ...bridgeData } =
     usePrepareWrappedDydxTokenBridge({
       chainId: 1,
-      account: address,
+      account: ethAddress,
       args:
         (typeof allowanceAmount !== "undefined" &&
           typeof verifiedCosmosEthAddress !== "undefined" && [
@@ -123,11 +138,12 @@ export const BridgeStep = ({
 
               <ReceiverAddressInput
                 value={cosmosAddress || ""}
-                onChange={onRecipientChange}
+                onChange={setCosmosAddress}
               />
             </Box>
 
             <LoadingButton
+              disabled={!cosmosAddress || isLeft(bech32Validity(cosmosAddress))}
               loading={
                 //   approvalData.isLoading ||
                 approvalTx.isLoading || writeParams?.isLoading
