@@ -32,11 +32,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stack direction="row" justifyContent={"space-between"}>
-        <Button variant="outline" px={0} onClick={toggleColorMode}>
+        <>&nbsp;</>
+        {/* <Button variant="outline" px={0} onClick={toggleColorMode}>
           <Icon
             as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />
-        </Button>
+        </Button> */}
         <Box>
           <w3m-account-button />
         </Box>
