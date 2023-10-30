@@ -207,9 +207,8 @@ export default function Form({}: Props) {
               allowanceAmount={allowanceQuery.data}
             />
             <StakeStep
-              address={cosmosAddress}
-              // address="dydx140l6y2gp3gxvay6qtn70re7z2s0gn57z9qaqxk"
-
+              // address={cosmosAddress}
+              address="dydx140l6y2gp3gxvay6qtn70re7z2s0gn57z9qaqxk"
               onSubmit={console.log}
             />
           </Grid>
