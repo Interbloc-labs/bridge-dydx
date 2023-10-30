@@ -38,9 +38,9 @@ const projectId = "6da84c452ca677f10d064b6334d80f0e";
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: "DYDX Bridge by Interbloc",
+  name: "dYdX Bridge by Interbloc",
   description: "",
-  url: "https://dydxbridge.interbloc.com",
+  url: "https://bridge.interbloc.com",
   icons: [
     "https://explorer.interbloc.org/_next/static/media/logo.240bcc41.svg",
   ],
