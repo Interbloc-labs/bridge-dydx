@@ -47,6 +47,7 @@ import { AllowanceStep } from "../AllowanceStep/AllowanceStep";
 import { BridgeStep } from "../BridgeStep/BridgeStep";
 import { StakeStep } from "../StakeStep/StakeStep";
 import { useChain } from "@cosmos-kit/react";
+import { CosmosKitConnect } from "../CosmosKitConnect/CosmosKitConnect";
 
 function Copyright(props: any) {
   return (
@@ -179,6 +180,7 @@ export default function Form({}: Props) {
   return (
     <>
       <CssBaseline />
+      <CosmosKitConnect />
       <Box
         sx={{
           marginTop: 8,
