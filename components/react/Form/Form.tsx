@@ -12,6 +12,7 @@ import { AllowanceStep } from "../AllowanceStep/AllowanceStep";
 import { BridgeStep } from "../BridgeStep/BridgeStep";
 import { StakeStep } from "../StakeStep/StakeStep";
 import { useChain } from "@cosmos-kit/react";
+import { PendingMigrationsTable } from "../PendingMigrationsTable/PendingMigrationsTable";
 
 function Copyright(props: any) {
   return (
@@ -102,7 +103,7 @@ export default function Form({}: Props) {
         )}
 
         <Box>
-          <Grid justifyContent="space-between" direction="column" container>
+          <Grid direction="column" container>
             <AllowanceStep
               address={ethAddr}
               onSubmit={(e) => {
@@ -141,6 +142,7 @@ export default function Form({}: Props) {
             // address="dydx140l6y2gp3gxvay6qtn70re7z2s0gn57z9qaqxk"
             // onSubmit={console.log}
             />
+            <PendingMigrationsTable />
           </Grid>
         </Box>
       </Box>
