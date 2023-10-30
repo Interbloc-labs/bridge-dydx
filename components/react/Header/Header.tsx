@@ -1,6 +1,6 @@
 import { Box, Container } from "@mui/material";
-import { DYDX_TOKEN_ADDRESS } from "../../App";
 import { useAccount } from "wagmi";
+import { CosmosKitConnect } from "../CosmosKitConnect/CosmosKitConnect";
 // import { Modal } from "@interchain-ui/react";
 
 type Props = {};
@@ -14,8 +14,9 @@ export const Header = () => {
       justifyContent="flex-end"
       width={"100%"}
     >
-      {<w3m-button balance={"show"} />}
+      {<w3m-connect-button balance={"show"} />}
       {/* <Modal isOpen={true} header={undefined} /> */}
+      <CosmosKitConnect />
     </Box>
   );
 };

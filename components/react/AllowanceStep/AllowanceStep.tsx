@@ -195,6 +195,7 @@ export const AllowanceStep = ({
             </Box>
 
             <LoadingButton
+              disabled={!amountToBridge[1]}
               loading={
                 //   approvalData.isLoading ||
                 approvalTx.isLoading || writeParams?.isLoading

@@ -42,7 +42,7 @@ export const BridgeStep = ({
   allowanceAmount,
   onBridgeSuccess,
 }: Props) => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [cosmosAddress, setCosmosAddress] = useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

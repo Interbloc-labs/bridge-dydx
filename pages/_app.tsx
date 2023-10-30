@@ -46,7 +46,7 @@ export const DYDX_TOKEN_ADDRESS = "0x92D6C1e31e14520e676a687F0a93788B716BEff5";
 
 // 3. Create modal
 createWeb3Modal({
-  themeMode: "light",
+  themeMode: "dark",
   wagmiConfig,
   projectId,
   chains,
