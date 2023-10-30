@@ -19,30 +19,9 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import {
-  useAccount,
-  useBalance,
-  useContractWrite,
-  useFeeData,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-  useWatchPendingTransactions,
-} from "wagmi";
-import {
-  usePrepareWrappedDydxTokenApprove,
-  usePrepareWrappedDydxTokenBridge,
-  useDydxTokenAllowance,
-  useWrappedDydxTokenApprovalEvent,
-  useWrappedDydxTokenRead,
-} from "../generated";
+import { useAccount, useFeeData } from "wagmi";
+import { useDydxTokenAllowance } from "../generated";
 
-import { ethToDydx } from "../../utils/ethToDydx";
-import { toHex } from "viem";
-import { ReceiverAddressInput } from "../ReceiverAddressInput/ReceiverAddressInput";
-import { useEffect } from "react";
-import { Check, CheckCircle } from "@mui/icons-material";
-import { Alert, LoadingButton } from "@mui/lab";
-import { Accordion } from "@mui/material";
 import { AllowanceStep } from "../AllowanceStep/AllowanceStep";
 import { BridgeStep } from "../BridgeStep/BridgeStep";
 import { StakeStep } from "../StakeStep/StakeStep";
