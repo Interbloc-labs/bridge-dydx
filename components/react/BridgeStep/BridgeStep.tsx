@@ -143,6 +143,8 @@ export const BridgeStep = ({
               />
             </Box>
 
+            <Box>Est Bridging Time: ~32 hours</Box>
+
             <LoadingButton
               disabled={
                 !allowanceAmount ||
