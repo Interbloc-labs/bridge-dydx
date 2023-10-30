@@ -42,7 +42,9 @@ export const BridgeStep = ({
   allowanceAmount,
   onBridgeSuccess,
 }: Props) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState<boolean>(
+    (allowanceAmount && allowanceAmount > 0n) || false
+  );
   const [cosmosAddress, setCosmosAddress] = useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,8 +97,7 @@ export const BridgeStep = ({
   const approvalTx = useWaitForTransaction({ hash: approveData?.hash });
 
   useEffect(() => {
-    allowanceAmount && expanded && setExpanded(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    !!allowanceAmount && allowanceAmount > 0n && setExpanded(true);
   }, [allowanceAmount]);
 
   const approval = approvalTx.data;

@@ -15,7 +15,10 @@ import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 import { WagmiConfig } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
 import { ChainRegistryClient } from "@chain-registry/client";
 // import { Header } from "./components/Header/Header";
 
@@ -25,15 +28,19 @@ import { defaultTheme } from "../config";
 import "@interchain-ui/react/styles";
 import { useEffect, useState } from "react";
 
-const wagmiDefaultTheme = createTheme();
+const muiDefaultTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 const projectId = "6da84c452ca677f10d064b6334d80f0e";
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: "DYDX Bridge by Interbloc",
+  name: "dYdX Bridge by Interbloc",
   description: "",
-  url: "https://dydxbridge.interbloc.com",
+  url: "https://bridge.interbloc.com",
   icons: [
     "https://explorer.interbloc.org/_next/static/media/logo.240bcc41.svg",
   ],
@@ -376,9 +383,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
       >
         {" "}
         <WagmiConfig config={wagmiConfig}>
-          <ThemeProvider theme={wagmiDefaultTheme}>
+          <MuiThemeProvider theme={muiDefaultTheme}>
             <Component {...pageProps} />
-          </ThemeProvider>
+          </MuiThemeProvider>
         </WagmiConfig>
       </ChainProvider>
     </ChakraProvider>
