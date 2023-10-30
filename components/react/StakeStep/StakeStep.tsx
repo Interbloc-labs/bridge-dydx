@@ -157,7 +157,7 @@ export const StakeStep = ({}: Props) => {
                 ),
                 startAdornment: (
                   <InputAdornment
-                    sx={{ width: 50, height: 50 }}
+                    sx={{ width: 35, height: 35 }}
                     position="start"
                   >
                     <img

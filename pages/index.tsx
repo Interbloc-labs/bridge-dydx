@@ -19,6 +19,7 @@ import { Product, Dependency, WalletSection } from "../components";
 import { dependencies, products } from "../config";
 import Form from "../components/react/Form/Form";
 import { useChain } from "@cosmos-kit/react";
+import { CosmosKitConnect } from "../components/react/CosmosKitConnect/CosmosKitConnect";
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -38,7 +39,8 @@ export default function Home() {
           />
         </Button>
         <Box>
-          <w3m-account-button />
+          <w3m-button />
+          {/* <CosmosKitConnect /> */}
         </Box>
       </Stack>
 

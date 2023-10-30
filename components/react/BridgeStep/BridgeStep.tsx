@@ -140,8 +140,8 @@ export const BridgeStep = ({
           </AccordionSummary>
           <AccordionDetails>
             <>
-              <Box style={{ marginBottom: "15px" }}>
-                <Typography>{formattedAllowance} DYDX</Typography>
+              <Box textAlign="center" style={{ marginBottom: "15px" }}>
+                <Typography variant="h6">{formattedAllowance} DYDX</Typography>
               </Box>
 
               <ReceiverAddressInput
