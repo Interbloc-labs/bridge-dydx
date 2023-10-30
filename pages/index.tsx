@@ -39,7 +39,7 @@ export default function Home() {
             as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button> */}
-        <Box>
+        <Box padding="10px">
           <w3m-button />
           {/* <CosmosKitConnect /> */}
         </Box>

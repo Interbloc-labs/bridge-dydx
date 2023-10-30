@@ -141,7 +141,7 @@ export const AllowanceStep = ({
                   ),
                   startAdornment: (
                     <InputAdornment
-                      sx={{ width: 35, height: 35 }}
+                      sx={{ width: "39px", height: "39px" }}
                       position="start"
                     >
                       <img
