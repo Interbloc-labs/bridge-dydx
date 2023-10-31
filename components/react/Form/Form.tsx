@@ -24,6 +24,7 @@ function Copyright(props: any) {
       {...props}
       sx={{
         marginTop: "15px",
+        mb: 2,
         flexDirection: "row",
         alignItems: "center",
         display: "flex",
