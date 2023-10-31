@@ -13,6 +13,7 @@ import { BridgeStep } from "../BridgeStep/BridgeStep";
 import { StakeStep } from "../StakeStep/StakeStep";
 import { useChain } from "@cosmos-kit/react";
 import { PendingMigrationsTable } from "../PendingMigrationsTable/PendingMigrationsTable";
+import Image from "next/image";
 
 function Copyright(props: any) {
   return (
@@ -109,10 +110,7 @@ export default function Form({}: Props) {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <img
-            alt="dYdX logo"
-            src="https://assets.coingecko.com/coins/images/17500/standard/hjnIm9bV.jpg?1696517040"
-          />
+          <Image height={50} width={50} alt="dYdX logo" src="/dydxlogo.webp" />
         </Avatar>
         <Typography component="h1" variant="h5">
           Bridge $DYDX

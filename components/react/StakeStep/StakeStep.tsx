@@ -21,6 +21,8 @@ import { LoadingButton } from "@mui/lab";
 import { useChain } from "@cosmos-kit/react";
 import { cosmos, osmosis } from "osmojs";
 import { PendingMigrationsTable } from "../PendingMigrationsTable/PendingMigrationsTable";
+import { ValidatorSelect } from "../ValidatorSelect/ValidatorSelect";
+import Image from "next/image";
 
 type Props = {
   // address: string | undefined;
@@ -45,6 +47,10 @@ export const StakeStep = ({}: Props) => {
   const [amountToDelegate, setAmountToDelegate] = useState<
     [amount: bigint, display: string]
   >([BigInt(0), ""]);
+  const [selectedValidator, setSelectedValidator] = useState<string>(
+    "dydxvaloper15004ysvmqnqzkvt7x6s4cd53flmmvgfvyqk90h"
+  );
+  const [signingAndBroadcasting, setSigningAndBroadcasting] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -87,11 +93,12 @@ export const StakeStep = ({}: Props) => {
   const onSubmit = useCallback(
     async (delegationAmount: bigint) => {
       if (!address) return;
+      setSigningAndBroadcasting(true);
       const client = await getSigningStargateClient();
 
       const value = cosmos.staking.v1beta1.MsgDelegate.fromPartial({
         delegatorAddress: address,
-        validatorAddress: "dydxvaloper15004ysvmqnqzkvt7x6s4cd53flmmvgfvyqk90h",
+        validatorAddress: selectedValidator,
         amount: {
           denom: "adydx",
           amount: delegationAmount.toString(),
@@ -102,14 +109,15 @@ export const StakeStep = ({}: Props) => {
         value,
       };
 
-      client
+      await client
         .signAndBroadcast(address, [msg], "auto", "Stake DYDX")
         .then((res) => {
           console.log(res);
           setTxHash(res.transactionHash);
         });
+      setSigningAndBroadcasting(false);
     },
-    [address, getSigningStargateClient]
+    [address, getSigningStargateClient, selectedValidator]
   );
 
   return (
@@ -142,8 +150,8 @@ export const StakeStep = ({}: Props) => {
 
           <Box sx={{ columnGap: 2 }}>
             <Chip
+              sx={{ mb: 1, justifySelf: "flex-end" }}
               label={`${displayTokens} DYDX Available`}
-              style={{ marginBottom: "15px" }}
             />
             <TextField
               error={amountToDelegate[0] > userBalance}
@@ -172,9 +180,11 @@ export const StakeStep = ({}: Props) => {
                     sx={{ width: "30px", height: "30px" }}
                     position="start"
                   >
-                    <img
+                    <Image
+                      height={"30"}
+                      width={"30"}
                       style={{ borderRadius: "50%" }}
-                      src="https://assets.coingecko.com/coins/images/17500/standard/hjnIm9bV.jpg?1696517040"
+                      src="/dydxlogo.webp"
                       alt="$DYDX Icon"
                     />
                   </InputAdornment>
@@ -222,13 +232,18 @@ export const StakeStep = ({}: Props) => {
               }}
               //   value={(amountToBridge / BigInt(1e18)).toString()}
               value={amountToDelegate[1]}
+              sx={{ mb: 1 }}
+            />
+            <ValidatorSelect
+              validatorAddress={selectedValidator}
+              onChange={setSelectedValidator}
             />
           </Box>
           {isWalletConnected && (
             <LoadingButton
               disabled={amountToDelegate[0] === BigInt(0)}
               loading={
-                false
+                signingAndBroadcasting
                 //   approvalData.isLoading ||
                 // approvalTx.isLoading || writeParams?.isLoading
               }

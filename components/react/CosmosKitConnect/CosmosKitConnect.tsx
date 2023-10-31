@@ -31,8 +31,8 @@ export const CosmosKitConnect = ({}: Props) => {
         >
           {wallet?.logo && (
             <Image
-              height={"18px"}
-              width={"18px"}
+              height={"18"}
+              width={"18"}
               src={
                 typeof wallet.logo === "string"
                   ? wallet.logo

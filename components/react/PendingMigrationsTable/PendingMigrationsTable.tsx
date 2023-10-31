@@ -120,7 +120,7 @@ export const PendingMigrationsTable = () => {
                                   }`}
                                 >
                                   Block {startBlock + 86400}{" "}
-                                  <InsertLink fontSize="14px" />
+                                  <InsertLink fontSize="small" />
                                 </Link>
                               </div>
                             </Box>

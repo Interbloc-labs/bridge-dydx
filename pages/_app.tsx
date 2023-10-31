@@ -22,7 +22,7 @@ import {
 import { ChainRegistryClient } from "@chain-registry/client";
 // import { Header } from "./components/Header/Header";
 
-import { SignerOptions } from "@cosmos-kit/core";
+// import { SignerOptions } from "@cosmos-kit/core";
 // import { chains, assets } from "chain-registry";
 import { defaultTheme } from "../config";
 import "@interchain-ui/react/styles";
@@ -94,7 +94,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
     });
   }, []);
 
-  const signerOptions: SignerOptions = {
+  const signerOptions = {
     // signingStargate: () => {
     //   return getSigningCosmosClientOptions();
     // }

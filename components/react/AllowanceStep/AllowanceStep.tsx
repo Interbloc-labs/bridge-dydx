@@ -26,6 +26,7 @@ import { WDYDX_CONTRACT, is0xAddress } from "../Form/Form";
 import { DYDX_TOKEN_ADDRESS } from "../../../pages/_app";
 import { usePrepareDydxTokenApprove } from "../generated";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import Image from "next/image";
 
 type Props = {
   address: `0x${string}` | undefined;
@@ -151,9 +152,11 @@ export const AllowanceStep = ({
                       sx={{ width: "39px", height: "39px" }}
                       position="start"
                     >
-                      <img
+                      <Image
+                        height={"30"}
+                        width={"30"}
                         style={{ borderRadius: "50%" }}
-                        src="https://assets.coingecko.com/coins/images/17500/standard/hjnIm9bV.jpg?1696517040"
+                        src="/dydxlogo.webp"
                         alt="$DYDX Icon"
                       />
                     </InputAdornment>
