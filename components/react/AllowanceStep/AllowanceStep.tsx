@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import {
   useAccount,
   useBalance,
+  useConnect,
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -38,6 +39,9 @@ export const AllowanceStep = ({
   onSubmit,
   onAllowanceSuccess,
 }: Props) => {
+  const { connector: activeConnector, isConnected } = useAccount();
+  const { connectAsync, connectors, error, isLoading, pendingConnector } =
+    useConnect();
   const [expanded, setExpanded] = useState(true);
   //   const { address, isConnected, isConnecting } = useAccount();
 
@@ -200,19 +204,31 @@ export const AllowanceStep = ({
               />
             </Box>
 
-            <LoadingButton
-              disabled={!amountToBridge[1]}
-              loading={
-                //   approvalData.isLoading ||
-                approvalTx.isLoading || writeParams?.isLoading
-              }
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Allowance Tx
-            </LoadingButton>
+            {isConnected ? (
+              <LoadingButton
+                disabled={!amountToBridge[1]}
+                loading={
+                  //   approvalData.isLoading ||
+                  approvalTx.isLoading || writeParams?.isLoading
+                }
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign Allowance Tx
+              </LoadingButton>
+            ) : (
+              <LoadingButton
+                loading={isLoading}
+                type="button"
+                fullWidth
+                // variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                <w3m-connect-button label="Connect Eth Wallet to Start" />
+              </LoadingButton>
+            )}
           </AccordionDetails>
         </Accordion>
 
