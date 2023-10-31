@@ -17,7 +17,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, InsertLink, Share } from "@mui/icons-material";
 import { useGetPendingMigrations } from "./useGetPendingMigrations";
 import { useChain } from "@cosmos-kit/react";
 import { formatToken } from "../BridgeStep/BridgeStep";
@@ -111,9 +111,18 @@ export const PendingMigrationsTable = () => {
                                   )
                                 )}
                               </Typography>
-                              <Typography fontSize="small">
-                                Block {startBlock + 86400}
-                              </Typography>
+                              <div>
+                                <Link
+                                  target="_blank"
+                                  referrerPolicy="no-referrer"
+                                  href={`https://www.mintscan.io/dydx/block/${
+                                    startBlock + 86400
+                                  }`}
+                                >
+                                  Block {startBlock + 86400}{" "}
+                                  <InsertLink fontSize="14px" />
+                                </Link>
+                              </div>
                             </Box>
                           )
                         ) : (
