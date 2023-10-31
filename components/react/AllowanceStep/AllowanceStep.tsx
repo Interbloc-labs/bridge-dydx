@@ -25,6 +25,7 @@ import { WDYDX_CONTRACT, is0xAddress } from "../Form/Form";
 
 import { DYDX_TOKEN_ADDRESS } from "../../../pages/_app";
 import { usePrepareDydxTokenApprove } from "../generated";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 type Props = {
   address: `0x${string}` | undefined;
@@ -39,6 +40,7 @@ export const AllowanceStep = ({
   onSubmit,
   onAllowanceSuccess,
 }: Props) => {
+  const { open } = useWeb3Modal();
   const { connector: activeConnector, isConnected } = useAccount();
   const { connectAsync, connectors, error, isLoading, pendingConnector } =
     useConnect();
@@ -223,10 +225,11 @@ export const AllowanceStep = ({
                 loading={isLoading}
                 type="button"
                 fullWidth
-                // variant="contained"
+                variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={() => open()}
               >
-                <w3m-connect-button label="Connect Eth Wallet to Start" />
+                Connect Eth Wallet to Start
               </LoadingButton>
             )}
           </AccordionDetails>
