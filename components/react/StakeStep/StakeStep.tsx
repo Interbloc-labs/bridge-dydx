@@ -150,10 +150,11 @@ export const StakeStep = ({}: Props) => {
 
           <Box sx={{ columnGap: 2 }}>
             <Chip
-              sx={{ mb: 1, justifySelf: "flex-end" }}
+              sx={{ mb: 2, justifySelf: "flex-end" }}
               label={`${displayTokens} DYDX Available`}
             />
             <TextField
+              disabled={!isWalletConnected}
               error={amountToDelegate[0] > userBalance}
               fullWidth
               name="amount"
@@ -166,7 +167,6 @@ export const StakeStep = ({}: Props) => {
                   <InputAdornment position="end">
                     <Link
                       onClick={() =>
-                        userBalance &&
                         setAmountToDelegate([userBalance, displayTokens])
                       }
                     >
@@ -232,16 +232,20 @@ export const StakeStep = ({}: Props) => {
               }}
               //   value={(amountToBridge / BigInt(1e18)).toString()}
               value={amountToDelegate[1]}
-              sx={{ mb: 1 }}
+              sx={{ mb: 2 }}
             />
             <ValidatorSelect
               validatorAddress={selectedValidator}
               onChange={setSelectedValidator}
             />
           </Box>
-          {isWalletConnected && (
+          {
             <LoadingButton
-              disabled={amountToDelegate[0] === BigInt(0)}
+              disabled={
+                !isWalletConnected ||
+                amountToDelegate[0] === BigInt(0) ||
+                amountToDelegate[0] > userBalance
+              }
               loading={
                 signingAndBroadcasting
                 //   approvalData.isLoading ||
@@ -255,7 +259,7 @@ export const StakeStep = ({}: Props) => {
             >
               Stake
             </LoadingButton>
-          )}
+          }
         </AccordionDetails>
       </Accordion>
       <Box>
