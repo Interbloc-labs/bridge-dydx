@@ -69,8 +69,17 @@ export const PendingMigrationsTable = () => {
           </Alert>
         ) : !pendingMigrations?.length ? (
           <Alert severity="info">
-            No pending migrations for {address}. Please note that migrations
-            take 30-45mins to be picked up by dYdX chain.
+            <div>
+              No pending migrations for{" "}
+              {`${address.substring(0, 7)}..${address.substring(
+                address.length - 6
+              )}`}
+              .
+            </div>
+            <div>
+              Please note that migrations take 30-45mins to be picked up by dYdX
+              chain.
+            </div>
           </Alert>
         ) : (
           <TableContainer sx={{}}>
