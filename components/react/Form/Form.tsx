@@ -104,6 +104,7 @@ export default function Form({}: Props) {
       <Box
         sx={{
           marginTop: 8,
+          mb: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

@@ -52,7 +52,7 @@ export enum Status {
 
 export const useQueryValidators = () => {
   const validators = useQuery(["validators"], () =>
-    fetch("http://validators-api.herokuapp.com/allValidators/dydx-mainnet-1")
+    fetch("//validators-api.herokuapp.com/allValidators/dydx-mainnet-1")
       .then((resp) => resp.json())
       .then((data: ValidatorsQuery[]) => data)
   );
