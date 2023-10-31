@@ -22,7 +22,7 @@ import {
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 import { toHex } from "viem";
 import { dydxToEth } from "../../utils/ethToDydx";
-import { isLeft, tryCatch } from "fp-ts/lib/Either";
+import { isLeft, isRight, tryCatch } from "fp-ts/lib/Either";
 import { useChain } from "@cosmos-kit/react";
 
 export const formatToken = (amount: bigint) => {
@@ -54,6 +54,7 @@ export const BridgeStep = ({
   allowanceAmount,
   onBridgeSuccess,
 }: Props) => {
+  const { isWalletConnected, isWalletConnecting, connect } = useChain("dydx");
   const [expanded, setExpanded] = useState<boolean>(
     (allowanceAmount && allowanceAmount > 0n) || false
   );
@@ -157,25 +158,38 @@ export const BridgeStep = ({
               />
             </>
 
-            <Box>Est Bridging Time: ~32 hours</Box>
+            <Box sx={{ mt: 1 }}>Est Bridging Time: ~32 hours</Box>
 
-            <LoadingButton
-              disabled={
-                !allowanceAmount ||
-                !cosmosAddress ||
-                isLeft(bech32Validity(cosmosAddress))
-              }
-              loading={
-                //   approvalData.isLoading ||
-                approvalTx.isLoading || writeParams?.isLoading
-              }
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Bridge Tokens
-            </LoadingButton>
+            {isWalletConnected ||
+            (cosmosAddress && isRight(bech32Validity(cosmosAddress))) ? (
+              <LoadingButton
+                disabled={
+                  !allowanceAmount ||
+                  !cosmosAddress ||
+                  isLeft(bech32Validity(cosmosAddress))
+                }
+                loading={
+                  //   approvalData.isLoading ||
+                  approvalTx.isLoading || writeParams?.isLoading
+                }
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Bridge Tokens
+              </LoadingButton>
+            ) : (
+              <LoadingButton
+                loading={isWalletConnecting}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={connect}
+              >
+                Connect Wallet for DYDX Chain Address
+              </LoadingButton>
+            )}
           </AccordionDetails>
         </Accordion>{" "}
         <Box>

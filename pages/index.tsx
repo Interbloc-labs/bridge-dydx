@@ -25,7 +25,7 @@ export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Container fixed>
+    <Container>
       {/* // maxW="5xl" py={10} */}
       <Head>
         <title>dYdX Bridge</title>
@@ -39,14 +39,37 @@ export default function Home() {
             as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button> */}
-        <Box padding="10px">
-          <w3m-button />
-          {/* <CosmosKitConnect /> */}
+        <Box
+          display="flex"
+          flex={1}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Box
+            flex={1}
+            sx={{
+              maxWidth: "1200px",
+
+              gap: 2,
+              alignItems: "center",
+              display: "flex",
+              direction: "row",
+              justifyContent: "space-between",
+            }}
+            padding="10px"
+          >
+            <w3m-button label="Eth Connect Wallet" />
+            <CosmosKitConnect />
+          </Box>
         </Box>
       </Stack>
 
       {/* <WalletSection /> */}
-      <Form />
+      <Box display="flex" flex={1} justifyContent="center" alignItems="center">
+        <Box maxWidth="800px">
+          <Form />
+        </Box>
+      </Box>
     </Container>
   );
 }

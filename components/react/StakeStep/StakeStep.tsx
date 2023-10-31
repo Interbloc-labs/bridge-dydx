@@ -224,7 +224,7 @@ export const StakeStep = ({}: Props) => {
               value={amountToDelegate[1]}
             />
           </Box>
-          {isWalletConnected ? (
+          {isWalletConnected && (
             <LoadingButton
               disabled={amountToDelegate[0] === BigInt(0)}
               loading={
@@ -239,14 +239,6 @@ export const StakeStep = ({}: Props) => {
               sx={{ mt: 3, mb: 2 }}
             >
               Stake
-            </LoadingButton>
-          ) : (
-            <LoadingButton
-              type="button"
-              disabled={isWalletConnecting}
-              onClick={connect}
-            >
-              Connect Wallet
             </LoadingButton>
           )}
         </AccordionDetails>

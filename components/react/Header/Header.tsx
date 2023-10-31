@@ -14,7 +14,7 @@ export const Header = () => {
       justifyContent="flex-end"
       width={"100%"}
     >
-      <w3m-connect-button />
+      <w3m-connect-button label="Eth Connect Wallet" />
       <CosmosKitConnect />
     </Box>
   );
