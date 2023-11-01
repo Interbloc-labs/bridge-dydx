@@ -36,7 +36,7 @@ type Props = {
 };
 
 export const AllowanceStep = ({
-  allowanceAmount: allowance,
+  allowanceAmount,
   address,
   onSubmit,
   onAllowanceSuccess,
@@ -57,12 +57,6 @@ export const AllowanceStep = ({
     token: DYDX_TOKEN_ADDRESS,
   });
 
-  const allowanceAmount =
-    dydxBalance.data?.value && allowance
-      ? allowance < dydxBalance.data.value
-        ? allowance
-        : dydxBalance.data.value
-      : allowance || dydxBalance?.data?.value || 0n;
   const { config: approveConfig, ...approvalData } = usePrepareDydxTokenApprove(
     {
       chainId: 1,
