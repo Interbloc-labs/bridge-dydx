@@ -173,6 +173,7 @@ export default function Form({}: Props) {
             />
 
             <BridgeStep
+              ethAddress={ethAddr}
               cosmosAddress={cosmosAddress}
               // onRecipientChange={setCosmosAddress}
               onRecipientChange={console.log}

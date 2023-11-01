@@ -19,11 +19,12 @@ import {
   bech32Validity,
   ReceiverAddressInput,
 } from "../ReceiverAddressInput/ReceiverAddressInput";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useContractWrite, useWaitForTransaction, useBalance } from "wagmi";
 import { toHex } from "viem";
 import { dydxToEth } from "../../utils/ethToDydx";
 import { isLeft, isRight, tryCatch } from "fp-ts/lib/Either";
 import { useChain } from "@cosmos-kit/react";
+import { DYDX_TOKEN_ADDRESS } from "../../../pages/_app";
 
 export const formatToken = (amount: bigint) => {
   const amountStr = amount.toString();
@@ -51,10 +52,21 @@ export const BridgeStep = ({
   // cosmosAddress,
   onSubmit,
   onRecipientChange,
-  allowanceAmount,
+  allowanceAmount: allowance,
   onBridgeSuccess,
 }: Props) => {
   const { isWalletConnected, isWalletConnecting, connect } = useChain("dydx");
+  const dydxBalance = useBalance({
+    address: ethAddress,
+    token: DYDX_TOKEN_ADDRESS,
+  });
+
+  const allowanceAmount =
+    dydxBalance.data?.value && allowance
+      ? allowance < dydxBalance.data.value
+        ? allowance
+        : dydxBalance.data.value
+      : allowance || dydxBalance?.data?.value || 0n;
   const [expanded, setExpanded] = useState<boolean>(
     (allowanceAmount && allowanceAmount > 0n) || false
   );
@@ -149,7 +161,7 @@ export const BridgeStep = ({
           <AccordionDetails>
             <>
               <Box textAlign="center" style={{ marginBottom: "15px" }}>
-                <Typography variant="h6">{`${formattedAllowance} DYDX`}</Typography>
+                <Typography variant="h6">{`${formattedAllowance} DYDX Allowance`}</Typography>
               </Box>
 
               <ReceiverAddressInput
