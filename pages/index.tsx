@@ -25,8 +25,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { CosmosKitConnect } from "../components/react/CosmosKitConnect/CosmosKitConnect";
 
 export default function Home() {
-  const { address, connect, isConnecting, isDisconnected, isConnected, open } =
-    useAccount();
+  const { address, isConnecting, isDisconnected, isConnected } = useAccount();
   const { open: openModal } = useWeb3Modal();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -76,7 +75,7 @@ export default function Home() {
                 // color="#1A70FE"
                 sx={{ backgroundColor: "#2CD7FF" }}
                 variant="contained"
-                onClick={openModal}
+                onClick={() => openModal()}
               >
                 ETH Connect Wallet
               </Button>

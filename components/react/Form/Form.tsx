@@ -143,7 +143,6 @@ export default function Form({}: Props) {
         }}
       >
         <Image
-          sx={{ mb: 2 }}
           height={"66"}
           width={"181"}
           alt="dYdX logo"
