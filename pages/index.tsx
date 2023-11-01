@@ -41,6 +41,11 @@ export default function Home() {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
         ></link>
+        <script
+          defer
+          data-domain="bridge.interbloc.org"
+          src="https://plausible.io/js/script.js"
+        ></script>
       </Head>
       <Stack direction="row" justifyContent={"space-between"}>
         <>&nbsp;</>
