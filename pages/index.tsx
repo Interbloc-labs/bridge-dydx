@@ -70,6 +70,7 @@ export default function Home() {
               display: "flex",
               direction: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
             padding="10px"
           >
