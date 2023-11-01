@@ -151,7 +151,7 @@ export default function Form({}: Props) {
         />
 
         <Typography component="h1" variant="h5">
-          One-Way Eth to Cosmos Bridge
+          One-Way ETH to Cosmos Bridge
         </Typography>
         {dydxBalance.data && (
           <Typography>

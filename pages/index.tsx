@@ -8,21 +8,26 @@ import {
   Text,
   Container,
   Link,
-  Button,
   Flex,
   Icon,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { Button } from "@mui/material";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 // import { Product, Dependency, WalletSection } from "../components";
 import { dependencies, products } from "../config";
 import Form from "../components/react/Form/Form";
 import { useChain } from "@cosmos-kit/react";
+import { useAccount } from "wagmi";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 import { CosmosKitConnect } from "../components/react/CosmosKitConnect/CosmosKitConnect";
 
 export default function Home() {
+  const { address, connect, isConnecting, isDisconnected, isConnected, open } =
+    useAccount();
+  const { open: openModal } = useWeb3Modal();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -64,7 +69,18 @@ export default function Home() {
             }}
             padding="10px"
           >
-            <w3m-button label="Eth Connect Wallet" />
+            {isConnected ? (
+              <w3m-account-button />
+            ) : (
+              <Button
+                // color="#1A70FE"
+                sx={{ backgroundColor: "#2CD7FF" }}
+                variant="contained"
+                onClick={openModal}
+              >
+                ETH Connect Wallet
+              </Button>
+            )}
             <CosmosKitConnect />
           </Box>
         </Box>

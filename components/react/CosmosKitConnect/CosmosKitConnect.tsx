@@ -63,6 +63,9 @@ export const CosmosKitConnect = ({}: Props) => {
         </Box>
       ) : (
         <Button
+          // color="#9485FE"
+          // backgroundColor="#9485FE"
+          sx={{ backgroundColor: "#9485FE" }}
           variant="contained"
           onClick={connect}
           disabled={isWalletConnected || isWalletConnecting}

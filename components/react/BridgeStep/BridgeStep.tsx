@@ -184,7 +184,7 @@ export const BridgeStep = ({
                 loading={isWalletConnecting}
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: "#9485FE" }}
                 onClick={connect}
               >
                 Connect Wallet for DYDX Chain Address

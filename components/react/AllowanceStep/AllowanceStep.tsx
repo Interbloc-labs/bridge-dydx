@@ -229,7 +229,7 @@ export const AllowanceStep = ({
                 type="button"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: "#2CD7FF" }}
                 onClick={() => open()}
               >
                 Connect Eth Wallet to Start
