@@ -29,6 +29,7 @@
     "@mui/material": "^5.14.15",
     "@web3modal/wagmi": "^3.2.0",
     "bech32": "^2.0.0",
+    "bootstrap-icons": "^1.11.1",
     "chain-registry": "1.20.0",
     "crypto-addr-codec": "^0.1.8",
     "date-fns": "^2.30.0",

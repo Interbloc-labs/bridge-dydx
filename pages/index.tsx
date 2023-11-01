@@ -33,6 +33,10 @@ export default function Home() {
         <title>dYdX Bridge</title>
         <meta name="description" content="dYdX Bridge by Interbloc" />
         <link rel="icon" href="/favicon.png" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        ></link>
       </Head>
       <Stack direction="row" justifyContent={"space-between"}>
         <>&nbsp;</>

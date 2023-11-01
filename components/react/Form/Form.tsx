@@ -14,48 +14,79 @@ import { StakeStep } from "../StakeStep/StakeStep";
 import { useChain } from "@cosmos-kit/react";
 import { PendingMigrationsTable } from "../PendingMigrationsTable/PendingMigrationsTable";
 import Image from "next/image";
+import { Twitter, Telegram } from "@mui/icons-material";
+import { Icon, IconButton } from "@mui/material";
 
 function Copyright(props: any) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-      sx={{
-        marginTop: "15px",
-        mb: 2,
-        flexDirection: "row",
-        alignItems: "center",
-        display: "flex",
-        gap: "3px",
-        justifyContent: "center",
-      }}
-    >
-      {/* {"Copyright "} */}
-      <Link
-        color="inherit"
-        target="_blank"
-        href="https://explorer.interbloc.org/"
+    <Box>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        align="center"
+        {...props}
         sx={{
+          mt: 3,
+          mb: 1,
           flexDirection: "row",
           alignItems: "center",
           display: "flex",
           gap: "3px",
+          justifyContent: "center",
         }}
       >
-        <img
-          height={"18px"}
-          width={"18px"}
-          src={`/favicon.png`}
-          alt="Interbloc logo"
-        />{" "}
-        Interbloc
-      </Link>
-      {" © "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
+        {/* {"Copyright "} */}
+        <Link
+          color="inherit"
+          target="_blank"
+          href="https://explorer.interbloc.org/"
+          sx={{
+            flexDirection: "row",
+            alignItems: "center",
+            display: "flex",
+            gap: "3px",
+          }}
+        >
+          <img
+            height={"18px"}
+            width={"18px"}
+            src={`/favicon.png`}
+            alt="Interbloc logo"
+          />{" "}
+          Interbloc
+        </Link>
+        {" © "}
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+      <Box
+        flexGrow={1}
+        sx={{
+          flexGrow: 1,
+          textAlign: "center",
+          alignItems: "center",
+          flexDirection: "row",
+          justifyContent: "center",
+          mb: 2,
+        }}
+      >
+        Need Help? Reach out!{" "}
+        <Link
+          href="https://twitter.com/Interbloc_org"
+          referrerPolicy="no-referrer"
+          target="_blank"
+        >
+          <i style={{ fontSize: "1.5rem" }} className="bi bi-twitter" />
+        </Link>{" "}
+        <Link
+          href="https://discord.gg/aF83Pb3MaD"
+          referrerPolicy="no-referrer"
+          target="_blank"
+        >
+          <i style={{ fontSize: "1.5rem" }} className="bi bi-discord" />
+        </Link>
+      </Box>
+    </Box>
   );
 }
 
@@ -111,11 +142,16 @@ export default function Form({}: Props) {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <Image height={50} width={50} alt="dYdX logo" src="/dydxlogo.webp" />
-        </Avatar>
+        <Image
+          sx={{ mb: 2 }}
+          height={"66"}
+          width={"181"}
+          alt="dYdX logo"
+          src="/dydxhoriz.svg"
+        />
+
         <Typography component="h1" variant="h5">
-          Bridge $DYDX
+          One-Way Eth to Cosmos Bridge
         </Typography>
         {dydxBalance.data && (
           <Typography>
