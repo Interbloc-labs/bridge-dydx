@@ -151,8 +151,8 @@ export default function Form({}: Props) {
           src="/dydxhoriz.svg"
         />
 
-        <Typography component="h1" variant="h5">
-          One-Way ETH to Cosmos Bridge
+        <Typography textAlign="center" component="h1" variant="h5">
+          One-Way ETH to dYdX Chain Bridge
         </Typography>
         {dydxBalance.data && (
           <Typography>
@@ -173,7 +173,6 @@ export default function Form({}: Props) {
             />
 
             <BridgeStep
-              ethAddress={ethAddr}
               cosmosAddress={cosmosAddress}
               // onRecipientChange={setCosmosAddress}
               onRecipientChange={console.log}
