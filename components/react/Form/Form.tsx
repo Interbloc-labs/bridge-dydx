@@ -137,6 +137,8 @@ export default function Form({}: Props) {
         sx={{
           marginTop: 8,
           mb: 8,
+          pl: 1,
+          pr: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
