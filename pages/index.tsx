@@ -24,6 +24,9 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 import { CosmosKitConnect } from "../components/react/CosmosKitConnect/CosmosKitConnect";
 
+export const DYDX_RPC = "https://bridge-rpc.itbc.dev";
+export const DYDX_REST = "https://bridge-api.itbc.dev";
+
 export default function Home() {
   const { address, isConnecting, isDisconnected, isConnected } = useAccount();
   const { open: openModal } = useWeb3Modal();

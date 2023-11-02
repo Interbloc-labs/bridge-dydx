@@ -23,6 +23,7 @@ import { cosmos, osmosis } from "osmojs";
 import { PendingMigrationsTable } from "../PendingMigrationsTable/PendingMigrationsTable";
 import { ValidatorSelect } from "../ValidatorSelect/ValidatorSelect";
 import Image from "next/image";
+import { DYDX_RPC } from "../../../pages";
 
 type Props = {
   // address: string | undefined;
@@ -54,9 +55,7 @@ export const StakeStep = ({}: Props) => {
 
   useEffect(() => {
     (async () => {
-      const client = await StargateClient.connect(
-        "https://rpc.cosmos.directory/dydx"
-      );
+      const client = await StargateClient.connect(DYDX_RPC);
       // await createRPCQueryClient({
       //   rpcEndpoint: "https://rpc.cosmos.directory/dydx",
       // });

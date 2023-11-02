@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "wagmi";
-
-const QUERY =
-  "https://rest.cosmos.directory/dydx/cosmos/tx/v1beta1/txs?events=message.action=%27/dydxprotocol.bridge.MsgAcknowledgeBridges%27";
+import { DYDX_REST } from "../../../pages";
 
 export interface Txs {
   txs: Tx[];
@@ -201,9 +199,7 @@ export const useGetPendingMigrations = (address: string | undefined) => {
   const latest = useQuery(
     ["blocks/latest"],
     () =>
-      fetch(
-        `https://rest.cosmos.directory/dydx/cosmos/base/tendermint/v1beta1/blocks/latest`
-      )
+      fetch(`${DYDX_REST}/cosmos/base/tendermint/v1beta1/blocks/latest`)
         .then((resp) => resp.json())
         .then((data: LatestResp) => Number(data.block.header.height)),
     // refetch block height every 90 seconds
@@ -215,7 +211,9 @@ export const useGetPendingMigrations = (address: string | undefined) => {
       ["pendingMigrations", address],
       () => {
         return address
-          ? fetch(QUERY)
+          ? fetch(
+              `${DYDX_REST}/cosmos/tx/v1beta1/txs?events=message.action=%27/dydxprotocol.bridge.MsgAcknowledgeBridges%27`
+            )
               .then((res) => res.json())
               .then((res: Txs) =>
                 res.tx_responses
