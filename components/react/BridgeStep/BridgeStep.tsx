@@ -66,7 +66,8 @@ export const BridgeStep = ({
       ? allowance < dydxBalance.data.value
         ? allowance
         : dydxBalance.data.value
-      : allowance || dydxBalance?.data?.value || 0n;
+      : allowance || 0n;
+
   const [expanded, setExpanded] = useState<boolean>(
     (allowanceAmount && allowanceAmount > 0n) || false
   );
