@@ -117,7 +117,9 @@ export const PendingMigrationsTable = () => {
                                   addSeconds(
                                     new Date(),
                                     (startBlock + 86400 - currentBlock) * 1.6
-                                  )
+                                  ),
+                                  new Date(),
+                                  { unit: "hour" }
                                 )}
                               </Typography>
                               <div>

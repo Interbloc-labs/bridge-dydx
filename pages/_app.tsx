@@ -27,6 +27,7 @@ import { ChainRegistryClient } from "@chain-registry/client";
 import { defaultTheme } from "../config";
 import "@interchain-ui/react/styles";
 import { useEffect, useState } from "react";
+import { GasPrice } from "@cosmjs/stargate/build";
 
 const muiDefaultTheme = createTheme({
   palette: {
@@ -95,9 +96,9 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   }, []);
 
   const signerOptions = {
-    // signingStargate: () => {
-    //   return getSigningCosmosClientOptions();
-    // }
+    signingStargate: () => ({
+      gasPrice: GasPrice.fromString("12500000000adydx"),
+    }),
   };
 
   return (

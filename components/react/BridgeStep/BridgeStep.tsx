@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   bech32Validity,
   ReceiverAddressInput,
@@ -72,11 +72,6 @@ export const BridgeStep = ({
   );
   const [cosmosAddress, setCosmosAddress] = useState<string>("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    !bridgeData.isError && approveWrite && approveWrite();
-  };
-
   const [cosmosEthAddress, verifiedCosmosEthAddress] = useMemo(() => {
     const cosmosEthAddress = cosmosAddress
       ? tryCatch(
@@ -120,6 +115,14 @@ export const BridgeStep = ({
   } = useContractWrite(bridgeConfig);
 
   const approvalTx = useWaitForTransaction({ hash: approveData?.hash });
+
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      !bridgeData.isError && approveWrite && approveWrite();
+    },
+    [approveWrite, bridgeData.isError]
+  );
 
   useEffect(() => {
     !!allowanceAmount && allowanceAmount > 0n && setExpanded(true);

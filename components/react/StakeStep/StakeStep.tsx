@@ -55,7 +55,7 @@ export const StakeStep = ({}: Props) => {
 
   useEffect(() => {
     (async () => {
-      const client = await StargateClient.connect(DYDX_RPC);
+      const client = await StargateClient.connect(DYDX_RPC, {});
       // await createRPCQueryClient({
       //   rpcEndpoint: "https://rpc.cosmos.directory/dydx",
       // });

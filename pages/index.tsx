@@ -26,6 +26,8 @@ import { CosmosKitConnect } from "../components/react/CosmosKitConnect/CosmosKit
 
 export const DYDX_RPC = "https://bridge-rpc.itbc.dev";
 export const DYDX_REST = "https://bridge-api.itbc.dev";
+// export const DYDX_RPC = "https://rpc.cosmos.directory/dydx";
+// export const DYDX_REST = "https://rest.cosmos.directory/dydx";
 
 export default function Home() {
   const { address, isConnecting, isDisconnected, isConnected } = useAccount();

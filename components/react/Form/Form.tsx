@@ -179,12 +179,12 @@ export default function Form({}: Props) {
               address={ethAddr}
               onSubmit={console.log}
               allowanceAmount={allowanceQuery.data}
-              onBridgeSuccess={() => {
+              onBridgeSuccess={React.useCallback(() => {
                 console.log("bridge success");
                 refetchWrappedDydxData();
                 dydxBalance.refetch();
                 allowanceRefetch();
-              }}
+              }, [allowanceRefetch, dydxBalance, refetchWrappedDydxData])}
             />
             <StakeStep
             // address={cosmosAddress}
