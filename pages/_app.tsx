@@ -28,6 +28,7 @@ import { defaultTheme } from "../config";
 import "@interchain-ui/react/styles";
 import { useEffect, useState } from "react";
 import { GasPrice } from "@cosmjs/stargate/build";
+import { DYDX_REST, DYDX_RPC } from ".";
 
 const muiDefaultTheme = createTheme({
   palette: {
@@ -201,6 +202,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
             apis: {
               rpc: [
                 {
+                  address: DYDX_RPC,
+                  provider: "Interbloc",
+                },
+                {
                   address: "https://dydx-rpc.lavenderfive.com:443",
                   provider: "Lavender.Five Nodes 🐝",
                 },
@@ -218,6 +223,10 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
                 },
               ],
               rest: [
+                {
+                  address: DYDX_REST,
+                  provider: "Interbloc",
+                },
                 {
                   address: "https://dydx-api.lavenderfive.com:443",
                   provider: "Lavender.Five Nodes 🐝",
