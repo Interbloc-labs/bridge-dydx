@@ -1,28 +1,13 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "wagmi";
-import { DYDX_REST } from "../../../pages";
+import {BRIDGE_API, DYDX_REST} from "../../../pages";
 
-export interface Txs {
-  txs: Tx[];
-  tx_responses: TxResponse[];
-  pagination: null;
-  total: string;
-}
-
-export interface TxResponse {
+export interface BridgeApiMigrationsResponse {
   height: string;
-  txhash: string;
-  codespace: string;
-  code: number;
-  data: string;
-  raw_log: string;
-  logs: Log[];
-  info: string;
-  gas_wanted: string;
-  gas_used: string;
-  tx: Tx;
-  timestamp: Date;
-  events: TxResponseEvent[];
+  address: string;
+  eth_block_height: string;
+  denom: number;
+  amount: string;
 }
 
 export interface TxResponseEvent {
@@ -199,9 +184,9 @@ export const useGetPendingMigrations = (address: string | undefined) => {
   const latest = useQuery(
     ["blocks/latest"],
     () =>
-      fetch(`${DYDX_REST}/cosmos/base/tendermint/v1beta1/blocks/latest`)
-        .then((resp) => resp.json())
-        .then((data: LatestResp) => Number(data.block.header.height)),
+        fetch(`${DYDX_REST}/cosmos/base/tendermint/v1beta1/blocks/latest`)
+          .then((resp) => resp.json())
+          .then((data: LatestResp) => Number(data.block.header.height)),
     // refetch block height every 90 seconds
     { refetchInterval: 1000 * 60 * 1.5 }
   );
@@ -212,11 +197,11 @@ export const useGetPendingMigrations = (address: string | undefined) => {
       () => {
         return address
           ? fetch(
-              `${DYDX_REST}/cosmos/tx/v1beta1/txs?events=message.action=%27/dydxprotocol.bridge.MsgAcknowledgeBridges%27`
+              `${BRIDGE_API}/migrations/address/${address}`
             )
               .then((res) => res.json())
-              .then((res: Txs) =>
-                res.tx_responses
+              .then((res: BridgeApiMigrationsResponse[]) =>
+                res
                   // .filter((tx) =>
                   //   tx.tx.body.messages.some(({ events }) =>
                   //     events.some(
@@ -227,28 +212,17 @@ export const useGetPendingMigrations = (address: string | undefined) => {
                   // denormalize the data so we can filter again
                   .map(
                     ({
-                      height,
-                      tx: {
-                        body: { messages },
-                      },
-                    }) =>
-                      messages.flatMap(({ events }) =>
-                        events
-                          .filter(
-                            ({ address: eventAddress }) =>
-                              eventAddress === address
-                          )
-                          .map(
-                            ({ address, coin }): PendingMigration => ({
+                        address,
+                        height,
+                        eth_block_height,
+                        denom,
+                        amount
+                    }) : PendingMigration => ({
                               address,
                               startBlock: Number(height),
-                              tokenAmount: BigInt(coin.amount),
+                              tokenAmount: BigInt(amount),
                             })
-                          )
-                      )
                   )
-                  .filter((x) => x.length > 0)
-                  .flat()
               )
           : [];
       },

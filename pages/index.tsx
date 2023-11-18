@@ -24,8 +24,10 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 import { CosmosKitConnect } from "../components/react/CosmosKitConnect/CosmosKitConnect";
 
+
 export const DYDX_RPC = "https://bridge-rpc.itbc.dev";
 export const DYDX_REST = "https://bridge-api.itbc.dev";
+export const BRIDGE_API = "https://api.bridge.interbloc.org";
 // export const DYDX_RPC = "https://rpc.cosmos.directory/dydx";
 // export const DYDX_REST = "https://rest.cosmos.directory/dydx";
 

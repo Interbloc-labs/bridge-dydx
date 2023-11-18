@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ChainProvider } from "@cosmos-kit/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
@@ -29,6 +28,11 @@ import "@interchain-ui/react/styles";
 import { useEffect, useState } from "react";
 import { GasPrice } from "@cosmjs/stargate/build";
 import { DYDX_REST, DYDX_RPC } from ".";
+import dynamic from "next/dynamic";
+
+const ChainProvider = dynamic(() => import('../components/react/ChainProviderCSR/ChainProviderCSR'), {
+  ssr: false,
+});
 
 const muiDefaultTheme = createTheme({
   palette: {
